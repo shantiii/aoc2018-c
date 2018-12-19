@@ -7,8 +7,8 @@
 #include "vector.h"
 
 enum event_type {
-	EV_SLEEP,
 	EV_WAKE,
+	EV_SLEEP,
 	EV_GUARD_ID
 };
 
@@ -42,6 +42,15 @@ rb_tree_ops_t guard_tree_ops = {
 void parse_events(FILE *input, struct vector *events);
 struct guard_entry *lookup(rb_tree_t *tree, int guard_id);
 
+void finish_day(struct guard_entry *entry, enum event_type state, int second) {
+	if (state == EV_WAKE) { return; }
+	while (second < 60) {
+		entry->sleeps[second]++;
+		entry->total_sleep++;
+		++second;
+	}
+}
+
 void solve_problem4(FILE *input) {
 	struct vector events;
 	vector_init(&events, sizeof(struct event), 10);
@@ -65,21 +74,48 @@ void solve_problem4(FILE *input) {
 		current_guard->total_sleep++;
 		int today = event->month * 32 + event->day;
 		if (current_day != today) {
-			current_day = today;
+			finish_day(current_guard, current_state, tick);
 			tick = 0;
-
+			current_day = today;
+			current_state = EV_WAKE;
 		}
-		printf("[%d-%d %d:%d][%d] %d\n", event->month, event->day, event->hour, event->minute, event->guard_id, (int) event->type);
-		printf("[Guard %d]: %llu\n", current_guard->guard_id, current_guard->total_sleep);
+		int add_val = (current_state == EV_SLEEP) ? 1 : 0;
+		while (tick < event->minute) {
+			current_guard->sleeps[tick]+= add_val;
+			current_guard->total_sleep+= add_val;
+			tick++;
+		}
+		current_state = event->type;
+	}
+	struct guard_entry *entry = NULL, *max_entry = NULL, *p2_entry = NULL;
+	int max_id = 0, max_second = 0;
+	int p2_id = 0, p2_second = 0;
+	while ((entry = rb_tree_iterate(&guards, entry, RB_DIR_RIGHT)) != NULL) {
+		if (max_entry == NULL || max_entry->total_sleep < entry->total_sleep) {
+			max_entry = entry;
+			max_id = max_entry->guard_id;
+		}
+		for (int i = 0; i < 60; ++i) {
+			if (p2_entry == NULL || entry->sleeps[i] > p2_entry->sleeps[p2_second]) {
+				p2_entry = entry;
+				p2_id = entry->guard_id;
+				p2_second = i;
+			}
+		}
+	}
+	for (int i = 0; i < 60; ++i) {
+		if (max_entry->sleeps[i] > max_entry->sleeps[max_second]) {
+			max_second = i;
+		}
 	}
 	// cleanup
-	struct guard_entry *entry;
 	while ((entry = RB_TREE_MIN(&guards)) != NULL) {
 		rb_tree_remove_node(&guards, entry);
 		free(entry);
 	}
 	vector_destroy(&events);
-	fflush(stdin);
+	printf("part1: %d\n", max_second * max_id);
+	printf("part2: %d\n", p2_second * p2_id);
 }
 
 void parse_events(FILE *input, struct vector *events) {
