@@ -8,7 +8,7 @@ BINDIR=bin
 _DEPS = vector.h
 DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
 
-_OBJ = main.o vector.o problem3.o problem4.o
+_OBJ = main.o vector.o problem3.o problem4.o problem5.o
 OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 
 $(BINDIR)/aoc: $(OBJ)

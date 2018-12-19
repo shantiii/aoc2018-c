@@ -15,10 +15,11 @@ struct box_set {
 };
 
 typedef void (*problem_fn)(FILE *);
-#define NUM_PROBLEMS 4
+#define NUM_PROBLEMS 25
 
 extern void solve_problem3(FILE *);
 extern void solve_problem4(FILE *);
+extern void solve_problem5(FILE *);
 
 void print_usage() {
 	fprintf(stderr, "usage: aoc <problem #> <input file>\n");
@@ -30,6 +31,7 @@ int main(int argc, char *argv[]) {
 	problem_fn solutions[NUM_PROBLEMS] = {0};
 	solutions[2] = solve_problem3;
 	solutions[3] = solve_problem4;
+	solutions[4] = solve_problem5;
 	size_t problem_id;
 	if (argc != 3) {
 		print_usage();
