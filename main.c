@@ -46,8 +46,8 @@ unsigned int int_cmp(struct interval *lhs, struct interval *rhs) {
 typedef void (*problem_fn)(FILE *);
 #define NUM_PROBLEMS 4
 
-void solve_problem3(FILE *);
-void solve_problem4(FILE *);
+extern void solve_problem3(FILE *);
+extern void solve_problem4(FILE *);
 
 void print_usage() {
 	fprintf(stderr, "usage: aoc <problem #> <input file>\n");
