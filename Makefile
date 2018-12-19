@@ -5,10 +5,10 @@ CFLAGS=-I$(IDIR)
 ODIR=obj
 BINDIR=bin
 
-_DEPS = interval_set.h vector.h
+_DEPS = vector.h
 DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
 
-_OBJ = main.o interval.o interval_tree.o vector.o problem3.o problem4.o
+_OBJ = main.o vector.o problem3.o problem4.o
 OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 
 $(BINDIR)/aoc: $(OBJ)

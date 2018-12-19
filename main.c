@@ -3,7 +3,6 @@
 #include <sysexits.h>
 #include <err.h>
 
-#include "interval_set.h"
 #include "vector.h"
 
 struct box_set_node {
@@ -14,34 +13,6 @@ struct box_set_node {
 struct box_set {
 	struct box_set_node *root;
 };
-
-/* interval comparison states */
-enum {
-	/*   { lhs }
-	 * [   rhs   ]
-	 */
-	IC_IN = 0, /* lhs is contained within rhs */
-	/*   { lhs } [ rhs ] */
-	IC_LESS = 1, /* lhs is strictly less than rhs */
-	/*   [ rhs ] { lhs } */
-	IC_MORE = 2, /* lhs is strictly greater than rhs */
-	IC_OUTSIDE = 3, /* lhs surrounds rhs */
-	IC_IN_LESS = 5, /* lhs partially overlaps rhs from below */
-	IC_IN_MORE = 6, /* lhs partially overlaps rhs from above */
-};
-
-struct interval {
-	unsigned int lower, upper;
-};
-
-unsigned int int_cmp(struct interval *lhs, struct interval *rhs) {
-	if (lhs->upper < rhs->lower) {
-		return IC_LESS;
-	} else if (lhs->lower > rhs->upper) {
-		return IC_MORE;
-	}
-	return 1; // TODO: finish this function?
-}
 
 typedef void (*problem_fn)(FILE *);
 #define NUM_PROBLEMS 4
