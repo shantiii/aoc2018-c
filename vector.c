@@ -25,7 +25,21 @@ void vector_destroy(struct vector *v) {
 	}
 }
 
-void vector_push(struct vector *v, void *elem) {
+size_t vector_width(const struct vector *v) {
+  return v->width;
+}
+
+size_t vector_size(const struct vector *v) {
+  return v->size;
+}
+
+void vector_at(const struct vector *v, size_t index, void *elem) {
+	if (v->size > 0 && elem) {
+		(void) memcpy(elem, ((char *)v->data) + v->width * index, v->width);
+	}
+}
+
+void vector_push(struct vector *v, const void *elem) {
 	if (v->size == v->capacity) {
 		register size_t new_capacity = v->capacity * GROWTH_FACTOR;
 		v->data = reallocf(v->data, new_capacity * v->width);
@@ -44,11 +58,5 @@ void vector_pop(struct vector *v, void *elem) {
 		if (elem) {
 			(void) memcpy(elem, ((char *)v->data) + v->width * v->size, v->width);
 		}
-	}
-}
-
-void vector_at(struct vector *v, size_t index, void *elem) {
-	if (v->size > 0 && elem) {
-		(void) memcpy(elem, ((char *)v->data) + v->width * index, v->width);
 	}
 }
