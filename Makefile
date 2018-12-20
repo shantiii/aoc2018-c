@@ -11,6 +11,8 @@ DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
 _OBJ = main.o vector.o problem3.o problem4.o problem5.o
 OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 
+all: $(ODIR) $(BINDIR) $(BINDIR)/aoc
+
 $(BINDIR)/aoc: $(OBJ)
 	$(CC) -o $@ $^ $(LDFLAGS)
 
