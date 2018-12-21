@@ -8,9 +8,13 @@ int charcmp(const char *lhs, const char *rhs) {
 }
 
 struct worker_entry {
-  char current;
+  char current; /* current character being processed */
   int time_remaining;
 };
+
+int early_worker(const struct worker_entry *lhs, const struct worker_entry *rhs) {
+  return lhs->time_remaining - rhs->time_remaining;
+}
 
 // problem code
 void solve_problem7(FILE *input) {
@@ -37,7 +41,7 @@ void solve_problem7(FILE *input) {
     }
   }
   printf("part1: ");
-  while (vector_size((struct vector *)&chars) > 0) {
+  while (heap_size(&chars) > 0) {
     char out;
     heap_pop(&chars, &out);
     //printf("out: %c [%lu]\n", out, vector_size((struct vector *)&chars));
@@ -52,6 +56,14 @@ void solve_problem7(FILE *input) {
   putchar('\n');
   /// Part 2 ///
   struct heap workers;
+
+//  while(heap_size(&chars > 0) && heap_size(&workers) > 0) {
+//    while (free_char && free_workers) {
+//      assign char to worker
+//    }
+//    advance time to first worker complete
+//      // run the update for that entry
+  }
 
   /* cleanup */
   for(int i=0; i<26; ++i) {
