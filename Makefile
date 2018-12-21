@@ -5,10 +5,12 @@ CFLAGS=-I$(IDIR) -Wall -Wextra -pedantic -std=c99
 ODIR=obj
 BINDIR=bin
 
-_DEPS = vector.h
+_DEPS = $(wildcard *.h)
 DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
 
-_OBJ = main.o vector.o problem3.o problem4.o problem5.o
+CSRCS = $(wildcard *.c)
+
+_OBJ = $(patsubst %.c, %.o, ${CSRCS})
 OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 
 all: $(ODIR) $(BINDIR) $(BINDIR)/aoc

@@ -20,6 +20,7 @@ typedef void (*problem_fn)(FILE *);
 extern void solve_problem3(FILE *);
 extern void solve_problem4(FILE *);
 extern void solve_problem5(FILE *);
+extern void solve_problem7(FILE *);
 
 void print_usage() {
 	fprintf(stderr, "usage: aoc <problem #> <input file>\n");
@@ -32,6 +33,7 @@ int main(int argc, char *argv[]) {
 	solutions[2] = solve_problem3;
 	solutions[3] = solve_problem4;
 	solutions[4] = solve_problem5;
+	solutions[6] = solve_problem7;
 	size_t problem_id;
 	if (argc != 3) {
 		print_usage();
