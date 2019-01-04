@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <sysexits.h>
 #include <err.h>
+#include <dlfcn.h>
 
 #include "vector.h"
 
@@ -17,25 +18,31 @@ struct box_set {
 typedef void (*problem_fn)(FILE *);
 #define NUM_PROBLEMS 25
 
-extern void solve_problem3(FILE *);
-extern void solve_problem4(FILE *);
-extern void solve_problem5(FILE *);
-extern void solve_problem7(FILE *);
-extern void solve_problem8(FILE *);
+problem_fn solutions[NUM_PROBLEMS] = {0};
 
 void print_usage() {
 	fprintf(stderr, "usage: aoc <problem #> <input file>\n");
 }
 
+void scan_symbols() {
+	void *dlhandle = dlopen(NULL, RTLD_NOW);
+	if (!dlhandle) {
+		return;
+	}
+	for (int i = 0; i < 25; ++i) {
+		char fun_name[32] = {0};
+		problem_fn solution;
+		sprintf(fun_name, "solve_problem%d", i+1);
+		if ((solution = (problem_fn) dlsym(dlhandle, fun_name)) != NULL) {
+			solutions[i] = solution;
+		}
+	}
+}
+
 /// ENTRY POINT
 int main(int argc, char *argv[]) {
+	scan_symbols();
 	FILE *input_file;
-	problem_fn solutions[NUM_PROBLEMS] = {0};
-	solutions[2] = solve_problem3;
-	solutions[3] = solve_problem4;
-	solutions[4] = solve_problem5;
-	solutions[6] = solve_problem7;
-	solutions[7] = solve_problem8;
 	size_t problem_id;
 	if (argc != 3) {
 		print_usage();

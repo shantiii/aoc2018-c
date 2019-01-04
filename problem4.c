@@ -1,3 +1,4 @@
+#ifndef __linux__
 #include <stdio.h>
 #include <stdlib.h>
 #include <strings.h>
@@ -170,3 +171,12 @@ int guard_entry_key_cmp(void *ctx, const struct guard_entry *node, const int *ke
 	(void) ctx;
 	return node->guard_id - *key;
 }
+#else
+
+#include <stdio.h>
+
+void solve_problem4(FILE *param) {
+	(void) param;
+}
+
+#endif

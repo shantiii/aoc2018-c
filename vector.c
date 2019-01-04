@@ -42,7 +42,7 @@ void vector_at(const struct vector *v, size_t index, void *elem) {
 void vector_push(struct vector *v, const void *elem) {
 	if (v->size == v->capacity) {
 		register size_t new_capacity = v->capacity * GROWTH_FACTOR;
-		v->data = reallocf(v->data, new_capacity * v->width);
+		v->data = realloc(v->data, new_capacity * v->width);
 		if (!v->data) {
 			exit(EX_OSERR);
 		}

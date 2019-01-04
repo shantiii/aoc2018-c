@@ -63,7 +63,7 @@ void solve_problem7(FILE *input) {
 //    }
 //    advance time to first worker complete
 //      // run the update for that entry
-  }
+//  }
 
   /* cleanup */
   for(int i=0; i<26; ++i) {

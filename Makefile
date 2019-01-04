@@ -1,6 +1,7 @@
 IDIR =.
-CC=gcc
+CC=clang
 CFLAGS=-I$(IDIR) -O3 -Wall -Wextra -pedantic -std=c11
+LDFLAGS=-ldl -Wl,--export-dynamic
 
 ODIR=obj
 BINDIR=bin
@@ -18,10 +19,10 @@ all: $(ODIR) $(BINDIR) $(BINDIR)/aoc
 $(BINDIR)/aoc: $(OBJ)
 	$(CC) -o $@ $^ $(LDFLAGS)
 
-$(ODIR)/:
+$(ODIR):
 	mkdir $(ODIR)
 
-$(BINDIR)/:
+$(BINDIR):
 	mkdir $(BINDIR)
 
 $(ODIR)/%.o: %.c $(DEPS)
