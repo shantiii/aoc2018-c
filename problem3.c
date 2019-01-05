@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include "problem.h"
 #include "vector.h"
 
 struct box {
@@ -19,7 +20,7 @@ int check_box(struct box *b, short *data) {
 	return 1;
 }
 
-void solve_problem3(FILE *input_file) {
+void solve_problem3(FILE *input_file, struct solution *sol) {
 	struct vector boxes;
 	struct box tmp_box;
 	vector_init(&boxes, sizeof(struct box), 10);
@@ -40,10 +41,10 @@ void solve_problem3(FILE *input_file) {
 		total += (data[i] > 1);
 	}
 
-	printf("part1: %d\n", total);
+	answerf(sol, "%d", total);
 	VECTOR_FOREACH(struct box *, b, boxes) {
 		if (check_box(b, data)) {
-			printf("part2: %d\n", b->id);
+			answerf(sol, "%d", b->id);
 		}
 	}
 	vector_destroy(&boxes);
