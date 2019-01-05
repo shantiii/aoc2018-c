@@ -1,6 +1,6 @@
 
 struct solution {
-	char answers[256][2];
+	char answers[2][256];
 	unsigned int answered;
 };
 

@@ -5,6 +5,7 @@
 #include <sysexits.h>
 #include <sys/rbtree.h>
 
+#include "problem.h"
 #include "vector.h"
 
 enum event_type {
@@ -52,7 +53,7 @@ void finish_day(struct guard_entry *entry, enum event_type state, int second) {
 	}
 }
 
-void solve_problem4(FILE *input) {
+void solve_problem4(FILE *input, struct solution *sol) {
 	struct vector events;
 	vector_init(&events, sizeof(struct event), 10);
 	parse_events(input, &events);
@@ -115,8 +116,8 @@ void solve_problem4(FILE *input) {
 		free(entry);
 	}
 	vector_destroy(&events);
-	printf("part1: %d\n", max_second * max_id);
-	printf("part2: %d\n", p2_second * p2_id);
+	answerf(sol, "%d", max_second * max_id);
+	answerf(sol, "%d", p2_second * p2_id);
 }
 
 void parse_events(FILE *input, struct vector *events) {
@@ -175,8 +176,11 @@ int guard_entry_key_cmp(void *ctx, const struct guard_entry *node, const int *ke
 
 #include <stdio.h>
 
-void solve_problem4(FILE *param) {
+#include "problem.h"
+
+void solve_problem4(FILE *param, struct solution *sol) {
 	(void) param;
+	(void) sol;
 }
 
 #endif

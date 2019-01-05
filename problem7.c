@@ -1,5 +1,6 @@
 #include <stdio.h>
 
+#include "problem.h"
 #include "vector.h"
 #include "heap.h"
 
@@ -17,7 +18,7 @@ int early_worker(const struct worker_entry *lhs, const struct worker_entry *rhs)
 }
 
 // problem code
-void solve_problem7(FILE *input) {
+void solve_problem7(FILE *input, struct solution *sol) {
   /* data parse memory */
   char before, after;
   /* list of letters with no dependencies */
@@ -40,12 +41,12 @@ void solve_problem7(FILE *input) {
       heap_insert(&chars, &i);
     }
   }
-  printf("part1: ");
+  size_t loc = 0;
   while (heap_size(&chars) > 0) {
     char out;
     heap_pop(&chars, &out);
-    //printf("out: %c [%lu]\n", out, vector_size((struct vector *)&chars));
-    putchar(out);
+    sol->answers[0][loc] = out;
+    loc++;
     VECTOR_FOREACH(char *, dep, deplist[(size_t)(out-'A')]) {
       depcounts[*dep-'A']--;
       if (depcounts[*dep-'A'] == 0) {
@@ -53,10 +54,10 @@ void solve_problem7(FILE *input) {
       }
     }
   }
-  putchar('\n');
+  sol->answered++;
   /// Part 2 ///
   struct heap workers;
-
+  (void) workers;
 //  while(heap_size(&chars > 0) && heap_size(&workers) > 0) {
 //    while (free_char && free_workers) {
 //      assign char to worker

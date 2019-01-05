@@ -2,13 +2,14 @@
 #include <stdio.h>
 #include <ctype.h>
 
+#include "problem.h"
 #include "vector.h"
 
 int compatible(int cp1, int cp2) {
 	return abs(cp1 - cp2) == abs('a' - 'A');
 }
 
-void solve_problem5(FILE *input) {
+void solve_problem5(FILE *input, struct solution *sol) {
 	struct vector stack;
 	int read;
 	vector_init(&stack, sizeof(int), 1024);
@@ -19,7 +20,7 @@ void solve_problem5(FILE *input) {
 			vector_pop(&stack, NULL);
 		}
 	}
-	printf("part1: %lu\n", stack.size);
+	answerf(sol, "%lu", stack.size);
 	struct vector p2_stack;
 	vector_init(&p2_stack, sizeof(char), stack.size);
 	char dst;
@@ -38,7 +39,7 @@ void solve_problem5(FILE *input) {
 		min_score = (p2_stack.size < min_score) ? p2_stack.size : min_score;
 		p2_stack.size = 0; /* hack to clear the stack*/
 	}
-	printf("part2: %lu\n", min_score);
+	answerf(sol, "%lu", min_score);
 	vector_destroy(&p2_stack);
 	vector_destroy(&stack);
 }

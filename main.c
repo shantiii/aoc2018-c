@@ -53,7 +53,7 @@ void print_usage() {
 	fprintf(stderr, "usage: aoc <problem #> <input file>\n");
 }
 
-void scan_symbols(problem_fn *solvers, size_t num_solvers) {
+void scan_solvers(problem_fn *solvers, size_t num_solvers) {
 	void *dlhandle = dlopen(NULL, RTLD_NOW);
 	if (!dlhandle) {
 		return;
